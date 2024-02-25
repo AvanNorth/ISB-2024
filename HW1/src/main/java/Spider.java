@@ -1,14 +1,12 @@
-import org.apache.commons.io.FileUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.IOException;
+import static utils.HWUtils.saveStrToFile;
 
 public class Spider {
-    static final String pathToFile = "src\\main\\resources\\";
+    static final String pathToFile = "src\\main\\resources\\pages\\";
 
     public static void main(String[] args) throws Exception {
         for (int page = 0; page < 7; page++) {
@@ -22,7 +20,7 @@ public class Spider {
                     String href = artList.get(i).attr("abs:href");
 
                     downloadPage(16 * page + i, href);
-                    saveStrToFile("index.txt", String.format("%d %s\n", 16 * page + i, href), true);
+                    saveStrToFile(pathToFile, "index.txt", String.format("%d %s\n", 16 * page + i, href), true);
                 }
             }
         }
@@ -30,11 +28,11 @@ public class Spider {
 
     public static void downloadPage(int index, String url) throws Exception {
         Document ArticleDoc = Jsoup.connect(url).get();
-        saveStrToFile(String.format("%d.txt", index), ArticleDoc.html(), false);
+        saveStrToFile(pathToFile, String.format("%d.txt", index), ArticleDoc.html(), false);
     }
 
-    public static void saveStrToFile(String fileName, String html, boolean append) throws IOException {
-        final File f = new File(String.format("%s%s", pathToFile, fileName));
-        FileUtils.writeStringToFile(f, html, "UTF-8", append);
-    }
+//    public static void saveStrToFile(String fileName, String html, boolean append) throws IOException {
+//        final File f = new File(String.format("%s%s", pathToFile, fileName));
+//        FileUtils.writeStringToFile(f, html, "UTF-8", append);
+//    }
 }
