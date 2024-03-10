@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 import static utils.HWUtils.getIndexes;
+import static utils.HWUtils.getPageFromIndex;
 
 
 public class Search {
@@ -19,19 +20,28 @@ public class Search {
 
         String searchString = sc.nextLine();
 
-        makeSearch(searchString);
+        outResult(makeSearch(searchString));
     }
 
-    static void makeSearch(String searchString) throws IOException {
+    static String makeSearch(String searchString) throws IOException {
         String[] searchList = splitString(searchString);
 
         searchList = findNOT(searchList);
         searchList = findAND(searchList);
         searchList = findOR(searchList);
 
-        String[] searchResult = Arrays.toString(searchList).replaceAll("\\[", "")
+        return searchList[searchList.length - 1];
+    }
+
+    static void outResult(String searchResult) throws IOException {
+        String[] searchResultArr = searchResult.replaceAll("\\[", "")
                 .replaceAll("]", "").split(",");
-        Integer[] indexes;
+
+        for (String s : searchResultArr) {
+            if (!s.equals("")){
+                System.out.println(getPageFromIndex(s.trim()));
+            }
+        }
     }
 
     static String[] splitString(String searchString) {
@@ -53,10 +63,10 @@ public class Search {
     static String[] findAND(String[] searchList) throws IOException {
         for (int i = 0; i < searchList.length; i++) {
             if (searchList[i].equals("AND")) {
-                searchList[i] = doLogic(searchList[i - 1], searchList[i + 1], "AND");
+                searchList[i + 1] = doLogic(searchList[i - 1], searchList[i + 1], "AND").trim();
 
                 searchList[i - 1] = "";
-                searchList[i + 1] = "";
+                searchList[i] = "";
             }
         }
 
@@ -66,10 +76,10 @@ public class Search {
     static String[] findOR(String[] searchList) throws IOException {
         for (int i = 0; i < searchList.length; i++) {
             if (searchList[i].equals("OR")) {
-                searchList[i] = doLogic(searchList[i - 1], searchList[i + 1], "OR");
+                searchList[i + 1] = doLogic(searchList[i - 1], searchList[i + 1], "OR").trim();
 
                 searchList[i - 1] = "";
-                searchList[i + 1] = "";
+                searchList[i] = "";
             }
         }
 
@@ -106,19 +116,23 @@ public class Search {
     }
 
     static void AND(ArrayList<Integer> w1Index, ArrayList<Integer> w2Index, Boolean w1NOT, Boolean w2NOT, ArrayList<Integer> answer) {
-        if (w1NOT) {
+        if (w1NOT && !w2NOT) {
             for (Integer i : w2Index) {
                 if (!w1Index.contains(i)) {
                     answer.add(i);
                 }
             }
-        } else if (w2NOT) {
+        }
+
+        if (!w1NOT && w2NOT) {
             for (Integer i : w1Index) {
                 if (!w2Index.contains(i)) {
                     answer.add(i);
                 }
             }
-        } else {
+        }
+
+        if (!w1NOT && !w2NOT) {
             for (Integer i : w1Index) {
                 if (w2Index.contains(i)) {
                     answer.add(i);
@@ -131,9 +145,13 @@ public class Search {
     static void OR(ArrayList<Integer> w1Index, ArrayList<Integer> w2Index, Boolean w1NOT, Boolean w2NOT, ArrayList<Integer> answer) {
         if (w1NOT) {
             answer.addAll(w2Index);
-        } else if (w2NOT) {
+        }
+
+        if (w2NOT) {
             answer.addAll(w1Index);
-        } else {
+        }
+
+        if (!w1NOT && !w2NOT){
             for (int i : w2Index) {
                 if (!w1Index.contains(i))
                     w1Index.add(i);
@@ -151,7 +169,7 @@ public class Search {
 
             Integer[] arr = new Integer[parseStringArr.length];
             for (int i = 0; i < parseStringArr.length; i++) {
-                arr[i] = Integer.parseInt(parseStringArr[i]);
+                arr[i] = Integer.parseInt(parseStringArr[i].trim());
             }
 
             ArrayList<Integer> parsedInd = new ArrayList<>();

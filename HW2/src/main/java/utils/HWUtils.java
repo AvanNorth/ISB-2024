@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ public class HWUtils {
 
         return jsonList.findIndexes(word);
     }
+
     public static String getPageFromIndex(String index) throws IOException {
         String path = "HW1/src/main/resources/pages/index.txt";
 
@@ -46,10 +48,9 @@ public class HWUtils {
         List<String> pageIndex = FileUtils.readLines(file, "UTF-8");
 
         for (String indexStr : pageIndex) {
-            if (indexStr.split(" ")[0].equals(index))
-                return indexStr.split(" ")[1];
-            else
-                return "";
+            if (indexStr.split(" ")[0].equals(index)) {
+                return indexStr;
+            }
         }
 
         return "";
