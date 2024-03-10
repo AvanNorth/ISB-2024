@@ -1,5 +1,7 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 public class ReverseIndexList {
@@ -7,6 +9,7 @@ public class ReverseIndexList {
         return indexArrayList;
     }
 
+    @JsonProperty
     private final ArrayList<ReverseIndex> indexArrayList;
 
     public ReverseIndexList(ArrayList<ReverseIndex> list) {
