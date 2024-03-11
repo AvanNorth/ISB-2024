@@ -14,26 +14,69 @@ public class Search {
     }
 
     static void interact() throws IOException {
-        System.out.println("Введите ваш запрос: ");
+        //System.out.println("Введите ваш запрос: ");
 
         Scanner sc = new Scanner(System.in);
 
-        String searchString = sc.nextLine();
+        //String searchString = sc.nextLine();
+        System.out.println("кошка AND (клещ OR собака)");
+        String searchString = "кошка AND (клещ OR собака)";
 
-        outResult(makeSearch(searchString));
+        System.out.println(openExpressions(searchString));
+        // outResult(makeSearch(searchString));
     }
 
     static String makeSearch(String searchString) throws IOException {
+        System.out.println(searchString);
+
         String[] searchList = splitString(searchString);
 
         searchList = findNOT(searchList);
         searchList = findAND(searchList);
         searchList = findOR(searchList);
 
+        System.out.println("searchList: " + Arrays.toString(searchList));
         return searchList[searchList.length - 1];
     }
 
-    static void outResult(String searchResult) throws IOException {
+    public static String openExpressions(String value) throws IOException {
+        int lastOpenBracketIdx = -1; // индекс последней открывающейся скобки
+        int closeBracketForOpenIdx = -1; // индекс закрывающейся скобки, которая встречается сразу после открывающейся
+
+        for (int i = 0; i < value.length(); i++) {
+            char symbol = value.charAt(i);
+
+            if (symbol == '(') {
+                lastOpenBracketIdx = i + 1;
+                closeBracketForOpenIdx = -1;
+            }
+
+            if (symbol == ')' && closeBracketForOpenIdx == -1) {
+                closeBracketForOpenIdx = i;
+            }
+        }
+
+        boolean hasSubstring = lastOpenBracketIdx != -1 && closeBracketForOpenIdx != -1; // случай, когда мы нашли подвыражение
+
+        if (!hasSubstring) {
+            //System.out.println("result is:");
+            //System.out.println("value is: " + value);
+            //System.out.println("makesearch is: " + makeSearch(value));
+            //outResult(makeSearch(value));
+            return outResult(makeSearch(value));
+        }
+
+        String substring = value.substring(lastOpenBracketIdx, closeBracketForOpenIdx);
+
+        String valueWithoutSubstring =
+                value.substring(0, lastOpenBracketIdx - 1)
+                        + makeSearch(substring)
+                        + value.substring(closeBracketForOpenIdx + 1);
+
+        return openExpressions(valueWithoutSubstring);
+    }
+
+    static String outResult(String searchResult) throws IOException {
         String[] searchResultArr = searchResult.replaceAll("\\[", "")
                 .replaceAll("]", "").split(",");
 
@@ -42,6 +85,8 @@ public class Search {
                 System.out.println(getPageFromIndex(s.trim()));
             }
         }
+
+        return "";
     }
 
     static String[] splitString(String searchString) {
