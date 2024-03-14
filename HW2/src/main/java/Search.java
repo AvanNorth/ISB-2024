@@ -14,28 +14,23 @@ public class Search {
     }
 
     static void interact() throws IOException {
-        //System.out.println("Введите ваш запрос: ");
+        System.out.println("Введите ваш запрос: ");
 
         Scanner sc = new Scanner(System.in);
 
-        //String searchString = sc.nextLine();
-        System.out.println("кошка AND (клещ OR собака)");
-        String searchString = "кошка AND (клещ OR собака)";
+        String searchString = sc.nextLine();
 
         System.out.println(openExpressions(searchString));
         // outResult(makeSearch(searchString));
     }
 
     static String makeSearch(String searchString) throws IOException {
-        System.out.println(searchString);
-
         String[] searchList = splitString(searchString);
 
         searchList = findNOT(searchList);
         searchList = findAND(searchList);
         searchList = findOR(searchList);
 
-        System.out.println("searchList: " + Arrays.toString(searchList));
         return searchList[searchList.length - 1];
     }
 
@@ -59,10 +54,6 @@ public class Search {
         boolean hasSubstring = lastOpenBracketIdx != -1 && closeBracketForOpenIdx != -1; // случай, когда мы нашли подвыражение
 
         if (!hasSubstring) {
-            //System.out.println("result is:");
-            //System.out.println("value is: " + value);
-            //System.out.println("makesearch is: " + makeSearch(value));
-            //outResult(makeSearch(value));
             return outResult(makeSearch(value));
         }
 
@@ -90,7 +81,14 @@ public class Search {
     }
 
     static String[] splitString(String searchString) {
-        return searchString.split(" ");
+        searchString = searchString.replaceAll(", ", ",_");
+        String[] answer = searchString.split(" ");
+
+        for (int i = 0; i < answer.length; i++) {
+            answer[i] = answer[i].replaceAll(",_", ",  ");
+        }
+
+        return answer;
     }
 
     static String[] findNOT(String[] searchList) {
