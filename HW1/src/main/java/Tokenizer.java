@@ -6,19 +6,20 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import static com.github.demidko.aot.WordformMeaning.lookupForMeanings;
 import static utils.HWUtils.*;
 
 public class Tokenizer {
-    static final String pathToTokensFile = "src\\main\\resources\\tokens\\";
-    static final String pathToLemmasFile = "src\\main\\resources\\lemmas\\";
-    static final String pathToPageFile = "src\\main\\resources\\pages\\%d.txt";
+    static final String pathToTokensFile = "HW1\\src\\main\\resources\\tokens\\";
+    static final String pathToLemmasFile = "HW1\\src\\main\\resources\\lemmas\\";
+    static final String pathToPageFile = "HW1\\src\\main\\resources\\pages\\%d.txt";
 
     public static void main(String[] args) throws IOException {
-
         /*
          * С помощью java.util.Tokenizer разделим текст на токены,
          * при этом очистим нашу страницу от html разметки и прочего, оставив только параграфы текста
@@ -32,7 +33,12 @@ public class Tokenizer {
                 /*
                  * Приведем каждый токен к ловер кейсу и найдем для него лемму
                  * */
-                String token = st.nextToken().toLowerCase();
+                String token = cleanToken(st.nextToken().toLowerCase());
+
+                if (token.equals("")) {
+                    continue;
+                }
+
                 tokenList.append(token).append("\n");
 
                 var meaning = lookupForMeanings(token);
@@ -52,6 +58,11 @@ public class Tokenizer {
             saveMapToFile(pathToLemmasFile, String.format("lemmas_%d.txt", i), mapOfLemmas);
             saveStrToFile(pathToTokensFile, String.format("tokens_%d.txt", i), tokenList.toString(), false);
         }
+    }
+
+    // TODO
+    public static void getWordCount(String[] args) {
+        return;
     }
 
     /*
@@ -80,5 +91,14 @@ public class Tokenizer {
 
         return pageText.toString();
     }
+    
+    static String cleanToken(String dirtyToken) throws IOException {
+        // Проверяем, содержит ли строка числа
+        if (Pattern.matches(".*\\d.*", dirtyToken)) {
+            return ""; // Если содержит, возвращаем пустую строку
+        }
 
+        // Удаляем все не-буквы
+        return dirtyToken.replaceAll("[^\\p{L}]", "");
+    }
 }
