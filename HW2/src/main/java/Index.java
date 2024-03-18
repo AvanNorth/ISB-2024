@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static utils.HWUtils.saveRevIndexToFile;
+import static utils.HWUtils2.saveRevIndexToFile;
 
 public class Index {
     static final String filePath = "HW1/src/main/resources/lemmas/lemmas_%d.txt";
