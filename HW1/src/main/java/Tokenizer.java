@@ -7,6 +7,7 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -33,7 +34,7 @@ public class Tokenizer {
                 /*
                  * Приведем каждый токен к ловер кейсу и найдем для него лемму
                  * */
-                String token = cleanToken(st.nextToken().toLowerCase());
+                String token = cleanWord(st.nextToken().toLowerCase());
 
                 if (token.equals("")) {
                     continue;
@@ -58,11 +59,6 @@ public class Tokenizer {
             saveMapToFile(pathToLemmasFile, String.format("lemmas_%d.txt", i), mapOfLemmas);
             saveStrToFile(pathToTokensFile, String.format("tokens_%d.txt", i), tokenList.toString(), false);
         }
-    }
-
-    // TODO
-    public static void getWordCount(String[] args) {
-        return;
     }
 
     /*
@@ -92,7 +88,7 @@ public class Tokenizer {
         return pageText.toString();
     }
     
-    static String cleanToken(String dirtyToken) throws IOException {
+    static String cleanWord(String dirtyToken) throws IOException {
         // Проверяем, содержит ли строка числа
         if (Pattern.matches(".*\\d.*", dirtyToken)) {
             return ""; // Если содержит, возвращаем пустую строку

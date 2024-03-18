@@ -8,11 +8,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class HWUtils {
+public class HWUtils2 {
     public static void saveRevIndexToFile(String pathToFile, String fileName, Map<String, ArrayList<Integer>> map) throws IOException {
         final File f = new File(String.format("%s%s", pathToFile, fileName));
 

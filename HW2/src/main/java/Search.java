@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
-import static utils.HWUtils.getIndexes;
-import static utils.HWUtils.getPageFromIndex;
+import static utils.HWUtils2.getIndexes;
+import static utils.HWUtils2.getPageFromIndex;
 
 
 public class Search {

@@ -1,42 +1,78 @@
-import java.io.File;
+import utils.HWUtils2;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
+    static final String pathToPageFile = "HW1\\src\\main\\resources\\pages\\%d.txt";
 
-    static final String filePath = "HW1/src/main/resources/lemmas/lemmas_%d.txt";
-    static final String saveFilePath = "HW2/src/main/resources/reverse_indexes/";
-
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+    public static void main(String[] args) throws IOException {
+        System.out.println(tfLemma("выплескивать")); // пример для подсчета tf леммы
+        System.out.println(tfToken(100, "выплескивать")); // пример для подсчета tf леммы
     }
 
-    public static void cleanFiles(String[] args) {
-        /*
-         * Проходим по всем файлам с леммами, занося информацию об индексе (номере файла или же номере страницы) в мапу,
-         *  ключом выступает сама лемма.
-         * После чего просто сохраняем мапу в файл в нужном формате (я сделал через преобразование объекта ReverseIndex в json)
-         * */
-        for (int i = 0; i < 112; i++) {
-            try {
-                File file = new File(String.format(filePath, i));
-                List<String> lemmaList = FileUtils.readLines(file, "UTF-8");
+    /**
+     * Получаем tf для леммы
+     */
+    public static String tfLemma(String lemma) throws IOException {
+        int numerator = 0;
+        int denominator = 0;
 
-                for (String line : lemmaList) {
-                    ArrayList<Integer> currList;
-                    String lemma = line.split(":")[0];
+        int[] documents = HWUtils2.getIndexes(lemma).stream().mapToInt(i -> i).toArray();
 
-                    currList = indexMap.get(lemma) == null ? new ArrayList<>() : indexMap.get(lemma);
+        for (int document : documents) {
+            String documentPath = String.format(pathToPageFile, document);
+            String text = Tokenizer.cleanPage(documentPath);
 
-                    currList.add(i);
-                    indexMap.put(lemma, currList);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            numerator += countWordOccurrences(text, lemma);
+            denominator += countTotalWords(text);
+        }
+
+        if (denominator == 0) {
+            return Integer.toString(0);
+        }
+
+        return Double.toString((double) numerator / denominator);
+    }
+
+    /**
+     * Получаем tf для токена
+     * @param pageIdx - номер странички
+     * @param token - слово, для которого подсчитывается метрика
+     */
+    public static String tfToken(Integer pageIdx, String token) throws IOException {
+        String documentPath = String.format(pathToPageFile, pageIdx);
+        String text = Tokenizer.cleanPage(documentPath);
+
+        return Double.toString((double) countWordOccurrences(text, token) / countTotalWords(text));
+    }
+
+    /**
+     * Получаем количества слов в тексте
+     */
+    public static int countTotalWords(String text) throws IOException {
+        int allWords = 0;
+
+        for (String word: text.split(" ")) {
+            if (!Tokenizer.cleanWord(word.toLowerCase()).equals(" ")) {
+                allWords += 1;
             }
         }
 
-        saveRevIndexToFile(saveFilePath, "reverse_index.txt", indexMap);
+        return allWords;
+    }
+
+    /**
+     * Получаем, сколько раз встречалось слово в тексте
+     */
+    public static int countWordOccurrences(String text, String value) throws IOException {
+        int result = 0;
+
+        for (String word: text.split(" ")) {
+            if (Tokenizer.cleanWord(word.toLowerCase()).equals(value.toLowerCase())) {
+                result += 1;
+            }
+        }
+
+        return result;
     }
 }
