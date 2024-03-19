@@ -39,9 +39,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "Application.Search.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "corretto-17",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Fotz/Documents/GitHub/ISB-2024",
@@ -61,7 +63,7 @@
       <recent name="data" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Search">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Index" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Index" />
       <module name="HW2" />
@@ -75,6 +77,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="HW3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Search" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Search" />
       <module name="HW2" />
@@ -84,6 +93,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Search" />
         <item itemvalue="Application.Index" />
       </list>
@@ -109,7 +119,9 @@
       <workItem from="1710073418024" duration="8998000" />
       <workItem from="1710152138851" duration="1464000" />
       <workItem from="1710620906635" duration="1026000" />
-      <workItem from="1710702338556" duration="1917000" />
+      <workItem from="1710702338556" duration="3188000" />
+      <workItem from="1710778809339" duration="11591000" />
+      <workItem from="1710866696547" duration="8091000" />
     </task>
     <servers />
   </component>
