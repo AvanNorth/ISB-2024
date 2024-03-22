@@ -5,7 +5,9 @@ import utils.HWUtils2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -105,6 +107,9 @@ public class Main {
         return result;
     }
 
+    /**
+     * Получаем tf*idf леммы
+     */
     public static void tfidfLemma(int n) throws IOException {
 
         for (int i = n; i < n + 14; i++) {
@@ -113,16 +118,32 @@ public class Main {
 
             for (String word : lemmas) {
                 String clearWord = word.split(":")[0];
-                double lemmaPagesCount = HWUtils2.getIndexes(clearWord).size();
+                Map<String, Double> tfidfMap = tfidfLemma(clearWord);
 
-                double idf = log10((double) 112 / lemmaPagesCount);
-                double tf = tfLemma(clearWord);
-
-                writeTfIdf(word, idf, tf * idf, pathToLemmaAnswerFile, "lemmas_%d.txt", i);
+                writeTfIdf(word, tfidfMap.get("idf"), tfidfMap.get("tfidf"), pathToLemmaAnswerFile, "lemmas_%d.txt", i);
             }
         }
     }
 
+    public static Map<String, Double> tfidfLemma(String lemma) throws IOException {
+        String clearLemma = lemma.toLowerCase();
+        double lemmaPagesCount = HWUtils2.getIndexes(clearLemma).size();
+
+        double idf = log10((double) 112 / lemmaPagesCount);
+        double tf = tfLemma(clearLemma);
+
+        Map<String, Double> result = new HashMap<>();
+
+        result.put("tf", tf);
+        result.put("idf", idf);
+        result.put("tfidf", tf * idf);
+
+        return result;
+    }
+
+    /**
+     * Получаем tf*idf для токена
+     */
     public static void tfidfToken() throws IOException {
 
         for (int i = 0; i < 112; i++) {
@@ -138,6 +159,9 @@ public class Main {
         }
     }
 
+    /**
+     * Записываем результаты в файл
+     */
     private static void writeTfIdf(String word, double idf, double tf_idf, String path, String fileName, int index) throws IOException {
 
         String answer = word +

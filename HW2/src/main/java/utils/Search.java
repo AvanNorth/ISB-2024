@@ -1,3 +1,5 @@
+package utils;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,18 +12,16 @@ import static utils.HWUtils2.getPageFromIndex;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        interact();
+        // interact();
     }
 
-    static void interact() throws IOException {
-        System.out.println("Введите ваш запрос: ");
+    public static String interact(String str) throws IOException {
+        // System.out.println("Введите ваш запрос: ");
 
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
 
-        String searchString = sc.nextLine();
-
-        System.out.println(openExpressions(searchString));
-        // outResult(makeSearch(searchString));
+        /// String searchString = sc.nextLine();
+        return openExpressions(str);
     }
 
     static String makeSearch(String searchString) throws IOException {
@@ -71,13 +71,15 @@ public class Search {
         String[] searchResultArr = searchResult.replaceAll("\\[", "")
                 .replaceAll("]", "").split(",");
 
+        StringBuilder str = new StringBuilder();
         for (String s : searchResultArr) {
             if (!s.equals("")){
-                System.out.println(getPageFromIndex(s.trim()));
+                str.append(getPageFromIndex(s.trim()));
+                str.append("\n");
             }
         }
 
-        return "";
+        return str.toString();
     }
 
     static String[] splitString(String searchString) {
