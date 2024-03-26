@@ -39,6 +39,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.HW3.executor": "Run",
+    "Application.HW4.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.Search.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -52,6 +54,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -63,7 +68,21 @@
       <recent name="data" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.HW3">
+    <configuration name="HW3" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HW3" />
+      <module name="HW3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HW4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HW4" />
+      <module name="ISB-2024" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Index" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Index" />
       <module name="HW2" />
@@ -77,13 +96,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="HW3" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Search" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Search" />
       <module name="HW2" />
@@ -93,7 +105,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.HW3" />
+        <item itemvalue="Application.HW4" />
         <item itemvalue="Application.Search" />
         <item itemvalue="Application.Index" />
       </list>
@@ -121,7 +134,12 @@
       <workItem from="1710620906635" duration="1026000" />
       <workItem from="1710702338556" duration="3188000" />
       <workItem from="1710778809339" duration="11591000" />
-      <workItem from="1710866696547" duration="8091000" />
+      <workItem from="1710866696547" duration="8107000" />
+      <workItem from="1710953392951" duration="597000" />
+      <workItem from="1711143732124" duration="4625000" />
+      <workItem from="1711198262750" duration="1318000" />
+      <workItem from="1711396462951" duration="1205000" />
+      <workItem from="1711480921711" duration="5280000" />
     </task>
     <servers />
   </component>

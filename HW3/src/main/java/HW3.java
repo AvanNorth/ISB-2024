@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 
 import static java.lang.Math.log10;
 
-public class Main {
+public class HW3 {
     static final String pathToPageFile = "HW1\\src\\main\\resources\\pages\\%d.txt";
 
     static final String pathToTokenFile = "HW1\\src\\main\\resources\\tokens\\tokens_%d.txt";
@@ -22,22 +22,9 @@ public class Main {
     static final String pathToTokenAnswerFile = "HW3\\src\\main\\resources\\tokens\\";
     static final String pathToLemmaAnswerFile = "HW3\\src\\main\\resources\\lemmas\\";
 
-    public static void main(String[] args) {
-        ExecutorService service = Executors.newCachedThreadPool();
 
-        int streaming = 112;
-
-        for (int i = 0; streaming > i; i += 14) {
-            int finalI = i;
-
-            service.submit(() -> {
-                try {
-                    tfidfLemma(finalI);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
+    public static void main(String[] args) throws IOException {
+        tfidfLemma();
     }
 
     /**
@@ -53,7 +40,22 @@ public class Main {
             String documentPath = String.format(pathToPageFile, document);
             String text = Tokenizer.cleanPage(documentPath);
 
-            numerator += countWordOccurrences(text, lemma);
+            List<String> lemmas = FileUtils.readLines(new File(String.format(pathToLemmaFile, document)), "UTF-8");
+
+            List<String> lemmaForms = new ArrayList<>();
+
+            for (String lemmaStr : lemmas) {
+                if (lemmaStr.split(":")[0].equals(lemma)) {
+                    lemmaForms.add(lemmaStr.split(":")[1].trim());
+
+                    break;
+                }
+            }
+
+            for (String str : lemmaForms) {
+                numerator += countWordOccurrences(text, str);
+            }
+
             denominator += countTotalWords(text);
         }
 
@@ -84,7 +86,7 @@ public class Main {
         int allWords = 0;
 
         for (String word : text.split(" ")) {
-            if (!Tokenizer.cleanWord(word.toLowerCase()).equals(" ")) {
+            if (!Tokenizer.cleanWord(word.toLowerCase()).isEmpty()) {
                 allWords += 1;
             }
         }
@@ -110,9 +112,8 @@ public class Main {
     /**
      * Получаем tf*idf леммы
      */
-    public static void tfidfLemma(int n) throws IOException {
-
-        for (int i = n; i < n + 14; i++) {
+    public static void tfidfLemma() throws IOException {
+        for (int i = 0; i < 1; i++) {
             File file = new File(String.format(pathToLemmaFile, i));
             List<String> lemmas = FileUtils.readLines(file, "UTF-8");
 
@@ -122,8 +123,10 @@ public class Main {
 
                 writeTfIdf(word, tfidfMap.get("idf"), tfidfMap.get("tfidf"), pathToLemmaAnswerFile, "lemmas_%d.txt", i);
             }
+
         }
     }
+
 
     public static Map<String, Double> tfidfLemma(String lemma) throws IOException {
         String clearLemma = lemma.toLowerCase();
