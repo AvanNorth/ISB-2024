@@ -39,8 +39,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.HW3.executor": "Run",
+    "Application.HW4.executor": "Run",
+    "Application.HWUtils2.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.Search.executor": "Run",
+    "Application.utils.Search.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "ignore.virus.scanning.warn.message": "true",
@@ -52,6 +56,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -63,13 +70,27 @@
       <recent name="data" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Index" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Index" />
+  <component name="RunManager" selected="Application.HW4">
+    <configuration name="HW3" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HW3" />
+      <module name="HW3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HW4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HW4" />
+      <module name="ISB-2024" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HWUtils2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="utils.HWUtils2" />
       <module name="HW2" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value=".*" />
+          <option name="PATTERN" value="utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -77,25 +98,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="HW3" />
+    <configuration name="Tokenizer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Tokenizer" />
+      <module name="SearchEngine" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Search" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Search" />
+    <configuration name="utils.Search" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="utils.Search" />
       <module name="HW2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Search" />
-        <item itemvalue="Application.Index" />
+        <item itemvalue="Application.HW4" />
+        <item itemvalue="Application.utils.Search" />
+        <item itemvalue="Application.HW3" />
+        <item itemvalue="Application.Tokenizer" />
+        <item itemvalue="Application.HWUtils2" />
       </list>
     </recent_temporary>
   </component>
@@ -121,7 +150,13 @@
       <workItem from="1710620906635" duration="1026000" />
       <workItem from="1710702338556" duration="3188000" />
       <workItem from="1710778809339" duration="11591000" />
-      <workItem from="1710866696547" duration="8091000" />
+      <workItem from="1710866696547" duration="8107000" />
+      <workItem from="1710953392951" duration="597000" />
+      <workItem from="1711143732124" duration="4625000" />
+      <workItem from="1711198262750" duration="1318000" />
+      <workItem from="1711396462951" duration="1205000" />
+      <workItem from="1711480921711" duration="7108000" />
+      <workItem from="1711488484828" duration="3132000" />
     </task>
     <servers />
   </component>

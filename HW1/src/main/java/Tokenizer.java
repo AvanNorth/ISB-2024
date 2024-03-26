@@ -36,7 +36,7 @@ public class Tokenizer {
                  * */
                 String token = cleanWord(st.nextToken().toLowerCase());
 
-                if (token.equals("")) {
+                if (token.isEmpty()) {
                     continue;
                 }
 
@@ -44,7 +44,7 @@ public class Tokenizer {
 
                 var meaning = lookupForMeanings(token);
 
-                if (meaning.size() > 0) {
+                if (!meaning.isEmpty()) {
                     WordformMeaning lemma = meaning.get(0).getLemma();
                     String lineOfTokens = mapOfLemmas.get(lemma.toString()) == null ? "" : mapOfLemmas.get(lemma.toString());
 
