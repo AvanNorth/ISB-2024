@@ -22,9 +22,9 @@ public class HW3 {
     static final String pathToTokenAnswerFile = "HW3\\src\\main\\resources\\tokens\\";
     static final String pathToLemmaAnswerFile = "HW3\\src\\main\\resources\\lemmas\\";
 
-
     public static void main(String[] args) throws IOException {
         tfidfLemma();
+        tfidfToken();
     }
 
     /**
@@ -113,7 +113,7 @@ public class HW3 {
      * Получаем tf*idf леммы
      */
     public static void tfidfLemma() throws IOException {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 112; i++) {
             File file = new File(String.format(pathToLemmaFile, i));
             List<String> lemmas = FileUtils.readLines(file, "UTF-8");
 

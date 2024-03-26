@@ -5,79 +5,86 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.github.demidko.aot.WordformMeaning.lookupForMeanings;
+import static utils.HWUtils2.getPageFromIndex;
 
 
 public class HW4 {
     static final String pathToLemmaFile = "HW3\\src\\main\\resources\\lemmas\\lemmas_%d.txt";
 
-    /**
-     * 1/ получаем список документов 4 5 6 7 и тп
-     * 2/ получаем tf-idf для запроса (1, 2, 1)
-     * 3/ для каждой страницы получаем вектор
-     * 4/ считаем расстояние
-     * 5/ сортируем как надо
-     */
     public static void main(String[] args) throws IOException {
-        String query = "клещ";
+        String query = "блохи и клещи у кошки";
 
-        List<Double> queryVector = getQueryVector(query);
+        double[] queryVector = getQueryVector(query);
 
-        for (double q: queryVector)
-            System.out.println("vector " + q);
+        Map<Integer, Double> docDist = generateDocDist(queryVector);
 
-        Map<Integer, Integer> docDist = generateDocDist(queryVector);
+        docDist = sortedHashMapByValues(docDist);
 
-        for (Map.Entry<Integer, Integer> e : docDist.entrySet()) {
-            System.out.println(e.getKey() + "    " + e.getValue());
+        for (Map.Entry<Integer, Double> e : docDist.entrySet()) {
+            System.out.println(getPageFromIndex(String.valueOf(e.getKey())));
         }
     }
 
-    /**
-     * 1. используем реализованный поиск
-     * 2. для сортировки этого поиска, нужно почистить запрос от логических слов,
-     * разбить на леммы, получить вектор tf-idf
-     * 3. сама сортировка - нужно расположить индексы так, чтобы документы относящиеся к индексам
-     * располагались в порядке убывания релевантности
-     */
-    public static List<Double> getQueryVector(String query) throws IOException {
+
+    public static double[] getQueryVector(String query) throws IOException {
         String cleanQuery = query.replaceAll("AND|OR|NOT|\\(|\\)", "").replaceAll("\\s{2,}", " ");
 
         System.out.println("query is: " + cleanQuery);
 
         String[] tokens = cleanQuery.split(" ");
-        List<Double> queryVector = new ArrayList<>();
+        double[] queryVector = new double[tokens.length];
 
-        for (String token: tokens) {
-            queryVector.add(HW3.tfidfLemma(lookupForMeanings(token).get(0).getLemma().toString()).get("tfidf"));
+        for (int i = 0; i < queryVector.length; i++) {
+            queryVector[i] = (HW3.tfidfLemma(lookupForMeanings(tokens[i]).get(0).getLemma().toString()).get("tfidf"));
         }
 
         return queryVector;
     }
 
-    public static Map<Integer, Integer> generateDocDist(List<Double> queryVector) throws IOException {
-        Map<Integer, Integer> distMap = new HashMap<>();
+    public static Map<Integer, Double> generateDocDist(double[] queryVector) throws IOException {
+        Map<Integer, Double> distMap = new HashMap<>();
 
-        for (int document = 0; document < 112; document++) {
+        for (int document = 0; document < 9; document++) {
             List<String> lemmas = FileUtils.readLines(new File(String.format(pathToLemmaFile, document)), "UTF-8");
 
-            List<Double> docVector = new ArrayList<>();
+            double[] docVector = new double[lemmas.size()];
 
-            for (String lemma: lemmas) {
-                String[] splLemma = lemma.split(" ");
+            for (int i = 0; i < lemmas.size(); i++) {
+                String[] splLemma = lemmas.get(i).split(" ");
 
-                docVector.add(Double.valueOf(splLemma[splLemma.length - 1]));
+                docVector[i] = (Double.parseDouble(splLemma[splLemma.length - 1]));
             }
 
-            int dist = 0;
+            double[] paddedQueryVector = new double[docVector.length];
+            System.arraycopy(queryVector, 0, paddedQueryVector, 0, queryVector.length);
 
-            for (double qV: queryVector) {
-                if (docVector.contains(qV))
-                   dist++;
-            }
-
-            distMap.put(document, dist);
+            distMap.put(document, 1 - cosineSimilarity(docVector, paddedQueryVector));
         }
 
         return distMap;
+    }
+
+    public static double cosineSimilarity(double[] vectorA, double[] vectorB) {
+        double dotProduct = 0.0;
+        double normA = 0.0;
+        double normB = 0.0;
+        for (int i = 0; i < vectorA.length; i++) {
+            dotProduct += vectorA[i] * vectorB[i];
+            normA += Math.pow(vectorA[i], 2);
+            normB += Math.pow(vectorB[i], 2);
+        }
+        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    private static Map<Integer, Double> sortedHashMapByValues(Map<Integer, Double> hashmap) {
+        TreeMap<Integer, Double> treeMap = new TreeMap<>((o1, o2) -> {
+            if (!Objects.equals(hashmap.get(o1), hashmap.get(o2)))
+                return Double.compare(hashmap.get(o1), hashmap.get(o2));
+
+            return o1.compareTo(o2);
+        });
+
+        treeMap.putAll(hashmap);
+        return treeMap;
     }
 }

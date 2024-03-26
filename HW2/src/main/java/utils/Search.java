@@ -12,16 +12,17 @@ import static utils.HWUtils2.getPageFromIndex;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        // interact();
+         interact();
     }
 
-    public static String interact(String str) throws IOException {
-        // System.out.println("Введите ваш запрос: ");
+    public static void interact() throws IOException {
+         System.out.println("Введите ваш запрос: ");
 
-        // Scanner sc = new Scanner(System.in);
+         Scanner sc = new Scanner(System.in);
 
-        /// String searchString = sc.nextLine();
-        return openExpressions(str);
+         String searchString = sc.nextLine();
+
+        System.out.println(openExpressions(searchString));
     }
 
     static String makeSearch(String searchString) throws IOException {
