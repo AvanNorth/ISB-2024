@@ -26,6 +26,9 @@ public class HW4 {
     }
 
 
+    /**
+     * Получение вектора для строки запроса
+     */
     public static double[] getQueryVector(String query) throws IOException {
         String cleanQuery = query.replaceAll("AND|OR|NOT|\\(|\\)", "").replaceAll("\\s{2,}", " ");
 
@@ -41,10 +44,13 @@ public class HW4 {
         return queryVector;
     }
 
+    /**
+     * Получаем вектор для каждой страницы
+     */
     public static Map<Integer, Double> generateDocDist(double[] queryVector) throws IOException {
         Map<Integer, Double> distMap = new HashMap<>();
 
-        for (int document = 0; document < 9; document++) {
+        for (int document = 0; document < 112; document++) {
             List<String> lemmas = FileUtils.readLines(new File(String.format(pathToLemmaFile, document)), "UTF-8");
 
             double[] docVector = new double[lemmas.size()];
@@ -64,6 +70,9 @@ public class HW4 {
         return distMap;
     }
 
+    /**
+     * Высчитываем косинусное расстояние между двумя векторами
+     */
     public static double cosineSimilarity(double[] vectorA, double[] vectorB) {
         double dotProduct = 0.0;
         double normA = 0.0;
@@ -76,6 +85,9 @@ public class HW4 {
         return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
     }
 
+    /**
+     * Сортируем мапу
+     */
     private static Map<Integer, Double> sortedHashMapByValues(Map<Integer, Double> hashmap) {
         TreeMap<Integer, Double> treeMap = new TreeMap<>((o1, o2) -> {
             if (!Objects.equals(hashmap.get(o1), hashmap.get(o2)))
