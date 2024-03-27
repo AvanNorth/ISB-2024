@@ -1,0 +1,8 @@
+.wrapper {
+    width: 420px;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 16px;
+}

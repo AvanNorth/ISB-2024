@@ -12,7 +12,7 @@ public class HW4 {
     static final String pathToLemmaFile = "HW3\\src\\main\\resources\\lemmas\\lemmas_%d.txt";
 
     public static void main(String[] args) throws IOException {
-        String query = "клещи и блохи у кошки";
+        String query = "аквариум";
 
         double[] queryVector = getQueryVector(query);
 

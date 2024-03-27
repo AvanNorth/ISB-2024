@@ -1,0 +1,16 @@
+.wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list {
+    min-width: 800px;
+    margin-top: 24px;
+    min-height: 285px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

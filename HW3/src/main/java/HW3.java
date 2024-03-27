@@ -4,10 +4,7 @@ import utils.HWUtils2;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -46,8 +43,8 @@ public class HW3 {
 
             for (String lemmaStr : lemmas) {
                 if (lemmaStr.split(":")[0].equals(lemma)) {
-                    lemmaForms.add(lemmaStr.split(":")[1].trim());
-
+                    String[] lemmaStrSplit = lemmaStr.split(":")[1].trim().split(" ");
+                    lemmaForms.addAll(Arrays.asList(lemmaStrSplit));
                     break;
                 }
             }
