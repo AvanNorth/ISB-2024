@@ -12,16 +12,19 @@ public class HW4 {
     static final String pathToLemmaFile = "HW3\\src\\main\\resources\\lemmas\\lemmas_%d.txt";
 
     public static void main(String[] args) throws IOException {
-        String query = "блохи и клещи у кошки";
+        String query = "клещи и блохи у кошки";
 
         double[] queryVector = getQueryVector(query);
+
+        for (double q: queryVector)
+            System.out.println("vector: " + q);
 
         Map<Integer, Double> docDist = generateDocDist(queryVector);
 
         docDist = sortedHashMapByValues(docDist);
 
         for (Map.Entry<Integer, Double> e : docDist.entrySet()) {
-            System.out.println(getPageFromIndex(String.valueOf(e.getKey())));
+            System.out.println(getPageFromIndex(String.valueOf(e.getKey())) + " " + e.getValue());
         }
     }
 
@@ -61,10 +64,15 @@ public class HW4 {
                 docVector[i] = (Double.parseDouble(splLemma[splLemma.length - 1]));
             }
 
-            double[] paddedQueryVector = new double[docVector.length];
-            System.arraycopy(queryVector, 0, paddedQueryVector, 0, queryVector.length);
+            double[] paddedQueryVector = new double[1000];
+            double[] paddedDocVector = new double[1000];
 
-            distMap.put(document, 1 - cosineSimilarity(docVector, paddedQueryVector));
+            Arrays.fill(paddedDocVector, 1);
+
+            System.arraycopy(queryVector, 0, paddedQueryVector, 0, queryVector.length);
+            System.arraycopy(docVector, 0, paddedDocVector, 0, docVector.length);
+
+            distMap.put(document, cosineSimilarity(paddedDocVector, paddedQueryVector));
         }
 
         return distMap;
@@ -78,9 +86,11 @@ public class HW4 {
         double normA = 0.0;
         double normB = 0.0;
         for (int i = 0; i < vectorA.length; i++) {
-            dotProduct += vectorA[i] * vectorB[i];
-            normA += Math.pow(vectorA[i], 2);
-            normB += Math.pow(vectorB[i], 2);
+            if (vectorA[i] != 0 || vectorB[i] != 0) {
+                dotProduct += vectorA[i] * vectorB[i];
+                normA += Math.pow(vectorA[i], 2);
+                normB += Math.pow(vectorB[i], 2);
+            }
         }
         return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
     }
